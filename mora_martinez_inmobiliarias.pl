@@ -1,22 +1,28 @@
+% Orientaciones de los pisos
 este.
 oeste.
 norte.
 sur.
 
+% Las viviendas pueden ser interiores o exteriores (dar a un patio de luces o a la calle).
 exterior.
 interior.
 
+% Distintos tipos de vivienda 
 piso.
 casa.
 loft.
 atico. 
 
+% Varias caracteristicas de las viviendas pueden estar presentes o ausentes
 si.
 no.
 
+% Las viviendas se localizan en las afueras o en el centro de la ciudad
 afueras.
 centro.
 
+% Declaracion de predicados dinamicos (seran modificados por el programa)
 :- dynamic vivienda/2, anuncios_viviendas/1, generarAnuncioVivienda/1, viviendas_visitadas/1, contador_semanas/1, maximo_precio/1.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
