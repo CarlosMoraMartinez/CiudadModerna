@@ -1,1 +1,1 @@
-swipl -s mora_martinez_inmobiliarias.pl -g run_anuncios_viviendas -t halt.
+swipl -s mora_martinez_inmobiliarias.pl -g run_todo. -t halt.

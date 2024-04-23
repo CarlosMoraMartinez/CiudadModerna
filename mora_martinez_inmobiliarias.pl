@@ -460,7 +460,7 @@ run_lista_visitar_random_semana :-
     write('- Viviendas que no merece la pena visitar esta semana: '), nl,
     write(NoVisitar), nl,
     write('--> Esta semana merece la pena visitar '), write(LengthY), write(" viviendas, y descartamos "),  
-    write(LengthNV), write(" de "),  write(LengthX), write(" totales."), nl, nl,
+    write(LengthNV), write(" de los "),  write(LengthX), write(" anuncios semanales."), nl, nl,
     viviendas_visitadas(W),
     append(W, Y, Z),
     retract(viviendas_visitadas(_)),
@@ -509,9 +509,13 @@ run_semanas_hasta_ver_mas_barata :-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
-%%%%%%%%%%%%%%%%%% PROCESO PRINCIPAL: ETAPA 1, CALCULAR PRECIO MINIMO, ETAPA 2 Y FINALIZAR  %%%
+%%%%%%%%%%%%%%%%%% PROCESO PRINCIPAL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 
+%%   EL PROCESO PRINCIPA CONSISTE EN:
+%%   ETAPA 1, CALCULAR PRECIO MINIMO VISITANDO 50 VIVIENDAS CON LAS CARACTERISTICAS ADECUADAS 
+%%   ETAPA 2: SEGUIR VISITANDO VIVIENDAS HASTA ENCONTRAR UNA CON LAS CARACTERISTICAS Y MAS BARATA QUE LAS 50 PRIMERAS
+%%   IMPRIMIR LA VIVIENDA ENCONTRADA Y FINALIZAR
 
 % Funcion auxiliar para calcular la vivienda mas barata a partir de una lista
 calcular_vivienda_mas_barata([], _):- !.
@@ -527,7 +531,7 @@ calcular_vivienda_mas_barata([vivienda(X, _)|Resto], ViviendaMasBarata):-
 % Funcion auxiliar para devolver el precio a partir de un elemento vivienda
 mostrar_precio(vivienda(X, _), Y) :- precio(X, Y). 
 
-
+% Proceso principal
 run_todo :- 
         run_semanas_hasta_ver_50_pisos,
         viviendas_visitadas(X),
