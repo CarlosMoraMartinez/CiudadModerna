@@ -473,7 +473,7 @@ run_semanas_hasta_ver_50_pisos :-
         viviendas_visitadas(X),
         length(X, LengthVisitadas),
         write('==> Hasta ahora hemos visitado '), write(LengthVisitadas), 
-        write(' viviendas en '), write(Semanas_transcurridas), write(" semanas, en la ronda de descartes."), nl, nl, nl, 
+        write(' viviendas en '), write(Semanas_transcurridas2), write(" semanas, en la ronda de descartes."), nl, nl, nl, 
         ( LengthVisitadas < 50 -> run_semanas_hasta_ver_50_pisos; true).
 
 
