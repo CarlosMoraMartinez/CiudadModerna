@@ -494,7 +494,7 @@ run_semanas_hasta_ver_mas_barata :-
         length(X, LengthVisitadas),
         maximo_precio(Max),
         write('--> Una vez ajustado el precio maximo a '),  write(Max), write(', hemos visitado '), write(LengthVisitadas), 
-        write(' viviendas en '), write(Semanas_transcurridas), write(" semanas."), nl, nl, nl, 
+        write(' viviendas en '), write(Semanas_transcurridas2), write(" semanas."), nl, nl, nl, 
         ( LengthVisitadas < 1 -> run_semanas_hasta_ver_mas_barata; true).        
 
 
