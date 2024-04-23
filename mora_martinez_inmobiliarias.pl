@@ -23,7 +23,7 @@ afueras.
 centro.
 
 % Declaracion de predicados dinamicos (seran modificados por el programa)
-:- dynamic vivienda/2, anuncios_viviendas/1, generarAnuncioVivienda/1, viviendas_visitadas/1, contador_semanas/1, maximo_precio/1.
+:- dynamic vivienda/2, anuncios_viviendas/1, viviendas_visitadas/1, contador_semanas/1, maximo_precio/1.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Caracteristicas de las viviendas
@@ -46,6 +46,25 @@ garaje_incluido(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,_, _,_,_, _,Y, _ , _]).
 trastero_incluido(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,_, _,_,_, _,_, Y, _]).
 zona(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,_, _,_,_, _,_, _, Y]).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Declaramos los requisitos minimos del comprador
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+maximo_precio(500).
+precio_sospechoso(40).
+minimo_metros(20).
+antiguedad_maxima(1960).
+orientacion_preferida(este).
+int_o_ext_preferido(exterior).
+habitciones_minimas(2).
+altura_minima(0).
+minimo_banyos(1).
+ascensor_requerido(no).
+garaje_requerido(no).
+trastero_requerido(no).
+
+n_viviendas_semana(40). % Num anuncios nuevos que aparecen cada semana
+descartar_primeras_n(50). % Num viviendas que se visitan y se descartan al principio
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Declaramos unas cuantas viviendas de prueba %%
@@ -96,24 +115,6 @@ vivienda(v32,[180, 84, 1998, piso, 1, este, oeste, exterior, interior, si, 3, 1,
 % Declaramos una lista con todas las viviendas.
 anuncios_viviendas([v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20,
                     v21, v22, v23, v24, v25, v26, v26, v28, v29, v30, v31, v32]).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Declaramos los requisitos minimos del comprador
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-maximo_precio(40000).
-precio_sospechoso(40).
-minimo_metros(20).
-antiguedad_maxima(1960).
-orientacion_preferida(este).
-int_o_ext_preferido(exterior).
-habitciones_minimas(2).
-altura_minima(7).
-
-minimo_banyos(1).
-ascensor_requerido(no).
-garaje_requerido(si).
-trastero_requerido(no).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -437,7 +438,8 @@ lista_visitar2([_|Resto], Viviendas) :-
 viviendas_visitadas([]).
 run_lista_visitar_random_semana :-
     write('GENERANDO LISTADO DE ANUNCIOS SEMANALES: '), nl,
-    generar_n_viviendas(X, 20),
+    n_viviendas_semana(ViviendasPorSemana),
+    generar_n_viviendas(X, ViviendasPorSemana),
     %assertz(anuncios_viviendas(X)),
     lista_visitar2(X, Y),
     subtract(X, Y, NoVisitar),
@@ -464,8 +466,9 @@ run_lista_visitar_random_semana :-
 
 % El comprador va visitando viviendas semana tras semana hasta haber visitado un minimo de 50.
 contador_semanas(0).
-run_semanas_hasta_ver_50_pisos :- 
+run_semanas_hasta_ver_N_pisos :- 
         run_lista_visitar_random_semana,
+        descartar_primeras_n(NumDescartes),
         contador_semanas(Semanas_transcurridas),
         Semanas_transcurridas2 is Semanas_transcurridas + 1,
         retract(contador_semanas(Semanas_transcurridas)),
@@ -474,7 +477,7 @@ run_semanas_hasta_ver_50_pisos :-
         length(X, LengthVisitadas),
         write('==> Hasta ahora hemos visitado '), write(LengthVisitadas), 
         write(' viviendas en '), write(Semanas_transcurridas2), write(" semanas, en la ronda de descartes."), nl, nl, nl, 
-        ( LengthVisitadas < 50 -> run_semanas_hasta_ver_50_pisos; true).
+        ( LengthVisitadas < NumDescartes -> run_semanas_hasta_ver_N_pisos; true).
 
 
 
@@ -524,14 +527,14 @@ mostrar_precio(vivienda(X, _), Y) :- precio(X, Y).
 
 % Proceso principal
 run_todo :- 
-        run_semanas_hasta_ver_50_pisos,
+        run_semanas_hasta_ver_N_pisos,
         viviendas_visitadas(X),
         calcular_vivienda_mas_barata(X, MasBarata),
         mostrar_precio(MasBarata, Precio),
         %write(X), nl,
         write("La mas barata de las primeras 50 es:"), nl,
         write(MasBarata), write(" con precio de "), write(Precio), write(" mil Euros."), nl,
-        write("Ahora buscaremos hasta dar con una vivienda mas barata que todas las anteriores"),
+        write("Ahora buscaremos hasta dar con una vivienda mas barata que todas las anteriores"), nl, nl, 
         retract(maximo_precio(_)),
         asserta(maximo_precio(Precio)),
         retract(viviendas_visitadas(X)),
