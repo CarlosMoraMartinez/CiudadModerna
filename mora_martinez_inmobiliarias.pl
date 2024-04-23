@@ -1,4 +1,3 @@
-
 este.
 oeste.
 norte.
@@ -20,7 +19,32 @@ centro.
 
 :- dynamic vivienda/2, anuncios_viviendas/1, generarAnuncioVivienda/1, viviendas_visitadas/1, contador_semanas/1, maximo_precio/1.
 
-/*Declaramos unas cuantas viviendas de prueba*/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Caracteristicas de las viviendas
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+precio(X, Y):- vivienda(X,[Y,_, _,_, _,_,_, _,_, _,_,_, _,_, _ , _]).
+metros(X, Y):- vivienda(X,[_,Y, _,_, _,_,_, _,_, _,_,_, _,_, _ , _]).
+anyo_construccion(X, Y):- vivienda(X,[_,_, Y,_, _,_,_, _,_, _,_,_, _,_, _ , _]).
+tipo_vivienda(X, Y):- vivienda(X,[_,_, _,Y, _,_,_, _,_, _,_,_, _,_, _ , _]).
+altura(X, Y):- vivienda(X,[_,_, _,_, Y,_,_, _,_, _,_,_, _,_, _ , _]).
+orientacion_comedor(X, Y):- vivienda(X,[_,_, _,_, _,Y,_, _,_, _,_,_, _,_, _ , _]).
+orientacion_habitaciones(X, Y):- vivienda(X,[_,_, _,_, _,_,Y, _,_, _,_,_, _,_, _ , _]).
+comedor_interior_o_exterior(X, Y):- vivienda(X,[_,_, _,_, _,_,_, Y,_, _,_,_, _,_, _ , _]).
+habitaciones_interior_o_exterior(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,Y, _,_,_, _,_, _ , _]).
+tiene_terraza(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,_, Y,_,_, _,_, _ , _]).
+num_habitaciones(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,_, _,Y,_, _,_, _ , _]).
+num_banyos(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,_, _,_,Y, _,_, _ , _]).
+tiene_ascensor(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,_, _,_,_, Y,_, _ , _]).
+garaje_incluido(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,_, _,_,_, _,Y, _ , _]).
+trastero_incluido(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,_, _,_,_, _,_, Y, _]).
+zona(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,_, _,_,_, _,_, _, Y]).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Declaramos unas cuantas viviendas de prueba %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 vivienda(v1,[200, 90, 2000, piso, 7, este, sur, exterior, interior, no, 30, 1, si, si, no, afueras]).
 vivienda(v2,[200, 70, 1980, piso, 3, norte, este, interior, exterior, no, 3, 0, si, si, si, afueras]).
 vivienda(v3,[250, 80, 1955, piso, 1, este, este, exterior, interior, no, 1, 2, si, si, no, centro]).
@@ -63,45 +87,34 @@ vivienda(v31,[400, 200, 1920, piso, 1, este, sur, interior, interior, si, 1, 1, 
 
 vivienda(v32,[180, 84, 1998, piso, 1, este, oeste, exterior, interior, si, 3, 1, si, si, no, afueras]).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+% Declaramos una lista con todas las viviendas.
+anuncios_viviendas([v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20,
+                    v21, v22, v23, v24, v25, v26, v26, v28, v29, v30, v31, v32]).
 
-
-% Caracteristicas de las viviendas
-
-precio(X, Y):- vivienda(X,[Y,_, _,_, _,_,_, _,_, _,_,_, _,_, _ , _]).
-metros(X, Y):- vivienda(X,[_,Y, _,_, _,_,_, _,_, _,_,_, _,_, _ , _]).
-anyo_construccion(X, Y):- vivienda(X,[_,_, Y,_, _,_,_, _,_, _,_,_, _,_, _ , _]).
-tipo_vivienda(X, Y):- vivienda(X,[_,_, _,Y, _,_,_, _,_, _,_,_, _,_, _ , _]).
-altura(X, Y):- vivienda(X,[_,_, _,_, Y,_,_, _,_, _,_,_, _,_, _ , _]).
-orientacion_comedor(X, Y):- vivienda(X,[_,_, _,_, _,Y,_, _,_, _,_,_, _,_, _ , _]).
-orientacion_habitaciones(X, Y):- vivienda(X,[_,_, _,_, _,_,Y, _,_, _,_,_, _,_, _ , _]).
-comedor_interior_o_exterior(X, Y):- vivienda(X,[_,_, _,_, _,_,_, Y,_, _,_,_, _,_, _ , _]).
-habitaciones_interior_o_exterior(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,Y, _,_,_, _,_, _ , _]).
-tiene_terraza(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,_, Y,_,_, _,_, _ , _]).
-num_habitaciones(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,_, _,Y,_, _,_, _ , _]).
-num_banyos(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,_, _,_,Y, _,_, _ , _]).
-tiene_ascensor(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,_, _,_,_, Y,_, _ , _]).
-garaje_incluido(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,_, _,_,_, _,Y, _ , _]).
-trastero_incluido(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,_, _,_,_, _,_, Y, _]).
-zona(X, Y):- vivienda(X,[_,_, _,_, _,_,_, _,_, _,_,_, _,_, _, Y]).
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Declaramos los requisitos minimos del comprador
-maximo_precio(1000).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+maximo_precio(40000).
 precio_sospechoso(40).
 minimo_metros(20).
 antiguedad_maxima(1960).
 orientacion_preferida(este).
 int_o_ext_preferido(exterior).
 habitciones_minimas(2).
-altura_minima(0).
+altura_minima(7).
 
 minimo_banyos(1).
 ascensor_requerido(no).
 garaje_requerido(si).
 trastero_requerido(no).
 
-/* Estas caracteristicas se calculan a partir de las declaradas en cada vivienda*/
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Reglas para comprobar si una vivienda cumple con las caracteristicas necesarias %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Estas reglas calculan caracteristicas 'secundarias' a partir de las caracteristicas del anuncio.
 
 %% El piso esta en rango de precio si no es demasiado barato ni demasiado caro
 puedo_pagar(X) :- precio(X, Y), maximo_precio(W), Y =< W.
@@ -188,8 +201,11 @@ cumple_caracteristicas_globales(X) :- precio_en_rango(X),
                                       nl.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %% Reglas para detectar incoherencias en el anuncio 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Estas reglas sirven para detectar configuraciones improbables en las viviendas anunciadas,
+%% y asi descartarlas puesto que probablemente se trate de un anuncio fraudulento.
 
 %% Un atico tiene que tener terraza
 incoh1(X) :- tipo_vivienda(X, atico), tiene_terraza(X, no).
@@ -223,11 +239,8 @@ visitar_piso(X) :- \+ anuncio_parece_falso(X), cumple_caracteristicas_globales(X
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
-
-%% PROBAMOS LA LOGICA DEL COMPRADOR CON VIVIENDAS DE PRUEBA %%
-
-anuncios_viviendas([v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20,
-                    v21, v22, v23, v24, v25, v26, v26, v28, v29, v30, v31, v32]).
+%% PROBAMOS LA LOGICA DEL COMPRADOR CON LAS VIVIENDAS DE PRUEBA %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 
 nuevas_viviendas([]).
 
@@ -249,34 +262,6 @@ run_lista_visitar :-
     write(X), nl, nl,
     write('Viviendas que merece la pena visitar: '), nl,
     write(Y), nl.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
-
-eliminar(X):- anuncios_viviendas(Listado), 
-                borrar(X, Listado, Y), 
-                retract( listaInicial(Listado)), 
-                asserta(listaInicial(Y)).
-
-anuncios_viviendas_filtradas(Viviendas) :-
-    anuncios_viviendas(Todos),
-    findall(Piso, (member(Piso, Todos), anuncio_parece_falso(Piso)), Viviendas).
-
-delete_false_listings :-
-    anuncios_viviendas(Todos),
-    retractall(anuncios_viviendas(_)),
-    anuncio_parece_falso(Piso),
-    delete(Todos, Piso, NuevasViviendas),
-    assertz(anuncios_viviendas(NuevasViviendas)).
-
-run_anuncios_viviendas_filtradas :-
-    anuncios_viviendas_filtradas(Viviendas),
-    write('Anuncios de viviendas que parecen falsas: '), nl,
-    write(Viviendas), nl.
-
-
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 %%%%%%%%%%%%%%%%%% GENERADOR DE ANUNCIOS DE VIVIENDAS ALEATORIOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -549,7 +534,7 @@ run_todo :-
         viviendas_visitadas([Y]),
         mostrar_precio(Y, PrecioViviendaComprada),
         contador_semanas(Semanas),
-        write("Ya hemos encontrado vivienda: "), nl,
+        write("Enhorabuena, hemos encontrado una vivienda para comprar: "), nl,
         write(Y), nl,
         write("Su precio final es: "), write(PrecioViviendaComprada), write(" mil Euros."), nl,
         write("Nos ha costado "), write(Semanas), write(" semanas."), nl.
