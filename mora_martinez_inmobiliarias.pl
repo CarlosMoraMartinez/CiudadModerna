@@ -70,22 +70,23 @@ descartar_primeras_n(50). % Num viviendas que se visitan y se descartan al princ
 %% Declaramos unas cuantas viviendas de prueba %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Tests requisitos
 vivienda(v1,[200, 90, 2000, piso, 7, este, sur, exterior, interior, no, 30, 1, si, si, no, afueras]).
 vivienda(v2,[200, 70, 1980, piso, 3, norte, este, interior, exterior, no, 3, 0, si, si, si, afueras]).
 vivienda(v3,[250, 80, 1955, piso, 1, este, este, exterior, interior, no, 1, 2, si, si, no, centro]).
 vivienda(v4,[150, 90, 1980, piso, 7, norte, sur, exterior, exterior, si, 4, 1, si, no, si, centro]).
 vivienda(v5,[50, 60, 1955, piso, 1, este, sur, interior, interior, si, 2, 1, si, no, si, centro]).
 
-%test incoh4
+% Test incoh4
 vivienda(v6,[50, 60, 2000, casa, 1, este, sur, interior, interior, si, 2, 1, no, no, si, centro]).
 vivienda(v7,[50, 60, 2000, loft, 1, este, sur, interior, interior, si, 4, 1, no, no, si, centro]).
 vivienda(v8,[50, 60, 1920, loft, 1, este, sur, interior, interior, si, 1, 1, no, no, si, centro]).
 
-%test incoh1
+% Test incoh1
 vivienda(v10,[50, 60, 2000, atico, 1, este, sur, interior, interior, si, 2, 1, no, no, si, centro]).
 vivienda(v11,[50, 60, 2000, atico, 1, este, sur, interior, interior, no, 4, 1, no, no, si, centro]).
 
-%test incoh2 y 3
+% Test incoh2 y 3
 vivienda(v12,[50, 60, 1920, loft, 1, este, sur, interior, interior, si, 4, 1, no, no, si, centro]).
 vivienda(v13,[400, 60, 2010, loft, 1, este, sur, interior, interior, si, 4, 1, no, no, si, centro]).
 vivienda(v14,[400, 60, 1920, loft, 1, este, sur, interior, interior, si, 4, 1, no, no, si, centro]).
@@ -95,7 +96,7 @@ vivienda(v17,[200, 60, 2010, loft, 1, este, sur, interior, interior, si, 4, 1, n
 vivienda(v18,[400, 60, 2010, loft, 1, este, sur, interior, interior, si, 4, 1, no, no, si, afueras]).
 
 
-%test incoh5
+% Test incoh5
 vivienda(v20,[50, 60, 1920, loft, 1, este, sur, interior, interior, si, 4, 1, no, no, si, centro]).
 vivienda(v21,[400, 100, 2010, loft, 1, este, sur, interior, interior, si, 4, 1, no, no, si, centro]).
 vivienda(v22,[400, 200, 1920, loft, 1, este, sur, interior, interior, si, 4, 1, no, no, si, centro]).
@@ -496,8 +497,8 @@ run_semanas_hasta_ver_mas_barata :-
         viviendas_visitadas(X),
         length(X, LengthVisitadas),
         maximo_precio(Max),
-        write('--> Una vez ajustado el precio maximo a '),  write(Max), write(', hemos visitado '), write(LengthVisitadas), 
-        write(' viviendas en '), write(Semanas_transcurridas2), write(" semanas."), nl, nl, nl, 
+        write('==> Una vez ajustado el precio maximo a '),  write(Max), write('.000 E, hemos visitado '), write(LengthVisitadas), 
+        write(' viviendas en '), write(Semanas_transcurridas2), write(" semanas totales."), nl, nl, nl, 
         ( LengthVisitadas < 1 -> run_semanas_hasta_ver_mas_barata; true).        
 
 
@@ -546,4 +547,4 @@ run_todo :-
         write("Enhorabuena, hemos encontrado una vivienda para comprar: "), nl,
         write(Y), nl,
         write("Su precio final es: "), write(PrecioViviendaComprada), write(" mil Euros."), nl,
-        write("Nos ha costado "), write(Semanas), write(" semanas."), nl.
+        write("Nos ha costado "), write(Semanas), write(" semanas en total."), nl.
